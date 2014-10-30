@@ -20,20 +20,47 @@ function calc(min, max)
      return 53, x
 end
  
-function progress(current,max,pos1,pos2)
+function progress(current,max,pos1,pos2,Color1,Color2)
  
 --Power
+ 
+ 
+ 
   maxX,x = calc(current,max)
   for i=0,3 do
-    for z=1,maxX do
-    mon.setCursorPos(pos1+z,pos2+i)
-    if z <= x then
-      mon.setBackgroundColor(colors.green)
-    else
-      mon.setBackgroundColor(colors.white)
-    end
+    if i == 1 then
+      for z=1,maxX do
+        mon.setCursorPos(pos1+z,pos2+i)
+        if z <= x then
+          mon.setBackgroundColor(Color1)
+        else
+          mon.setBackgroundColor(Color2)
+        end
    
-    mon.write(" ")
+        mon.write(" ")
+      end
+    end
+    if i == 3 then
+      for z=1,maxX do
+        mon.setCursorPos(pos1+z,pos2+i)
+        if z<= x then
+          mon.setBackgroundColor(Color1)
+        else
+          mon.setBackgroundColor(Color2)
+        end
+        mon.write(" ")
+      end
+    end
+    if i == 2 then
+      for z=1,maxX do
+        mon.setCursorPos(pos1+z,pos2+i)
+        if z<= x then
+          mon.setBackgroundColor(Color1)
+        else
+          mon.setBackgroundColor(Color2)
+        end
+        mon.write(" ")
+      end
     end
   end
 end
@@ -74,9 +101,9 @@ function draw(color)
      mon.setCursorPos(19,21)
      mon.write(math.floor(reactor.getFuelConsumedLastTick()*1000)/1000)
      
-     progress(Case,maxCase,7,3)
-     progress(fuel,maxFuel,7,9)
-     progress(rf,maxRf,7,15)
+     progress(Case,maxCase,7,3,2,128)
+     progress(fuel,maxFuel,7,9,16,8)
+     progress(rf,maxRf,7,15,32,1)
  
 --     mon.setCursorPos(8,4)
 --     mon.write(reactor.getCasingTemperature())
