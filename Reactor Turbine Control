@@ -1,1 +1,13 @@
-Something Goes Here
+Mon1 = peripheral.wrap("monitor_3")
+Mon2 = peripheral.wrap("monitor_4")
+Mon3 = peripheral.wrap("monitor_5")
+Mon4 = peripheral.wrap("monitor_6")
+ 
+local Table ={Mon1,Mon2,Mon3,Mon4}
+ 
+ 
+for i=1,#Table do
+  Table[i].clear()
+  Table[i].setBackgroundColor(colors.blue)
+  color = blue
+end
