@@ -1,0 +1,65 @@
+function Turn(value)
+   turtle.turnRight()
+   turtle.turnRight()
+end
+ 
+function Forward(parameter1)
+    for i=0,parameter1,1 do
+     if i==16 then
+     UP()
+     shell.run("refuel")
+     else
+      if turtle.detect() then
+      turtle.dig()
+      turtle.forward()
+      else
+      print("Moved Forward")
+      turtle.forward()
+      end
+      UP()
+      shell.run("refuel")
+    end
+    end
+end
+ 
+function Return(parameter1)
+    for i=0,parameter1,1 do
+      turtle.forward()
+    end
+end
+   
+function DIG()
+   turtle.dig()
+   print("Dug")
+   turtle.digUp()
+   print("Dug Up")
+   turtle.turnRight()
+   turtle.dig()
+   print("Dug Right")
+   Turn()
+   print("180")
+   turtle.dig()
+   print("Dug 180")
+   turtle.turnRight()
+   print("Forward Face")
+end
+function DIGUP()
+     turtle.dig()
+     turtle.turnRight()
+     turtle.dig()
+     Turn()
+     turtle.dig()
+     turtle.turnRight()
+end
+function UP()
+  DIG()
+  turtle.up()
+  DIGUP()
+  turtle.down()
+end
+print("Distance to Mine?")
+Distance = read()
+Forward(Distance)
+Turn()
+Return(Distance)
+Turn()
