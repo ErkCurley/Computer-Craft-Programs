@@ -1,0 +1,37 @@
+function DUMP()
+  turtle.select(16)
+ if turtle.getItemCount() > 0 then
+  if turtle.detect() then
+   turtle.dig()
+  end
+   turtle.select(1)
+   turtle.place()
+  for i=1,16,1 do
+     turtle.select(i)
+     turtle.drop()
+  end
+   turtle.select(1)
+   turtle.dig()
+ end
+ turtle.select(1)
+end
+ 
+ 
+function reFuel()
+  turtle.select(1)
+  turtle.place()
+  turtle.suck()
+  turtle.refuel()
+  turtle.drop()
+  turtle.dig()
+end
+if turtle.getFuelLevel() < 1500 then
+  if turtle.detect() then
+  turtle.dig()
+  reFuel()
+  else
+  reFuel()
+  end
+end
+print("ran Refuel")
+DUMP()
