@@ -14,21 +14,18 @@ function calc(min, max)
      percent = 53 / max
      
      x = percent * min
-     
-     -- print("percent: "..percent.." x: "..x)
-     
+   
      return 53, x
 end
- 
+-- This Function is Responsible for drawing the lines
 function progress(current,max,pos1,pos2,Color1,Color2)
  
---Power
- 
- 
- 
+  --maxX is the length of the bar in pixels
   maxX,x = calc(current,max)
-  for i=0,3 do
+   -- i Represtents the line number in each bar
+   for i=0,3 do
     if i == 1 then
+      -- z is the position along the bar
       for z=1,maxX do
         mon.setCursorPos(pos1+z,pos2+i)
         if z <= x then
@@ -65,9 +62,11 @@ function progress(current,max,pos1,pos2,Color1,Color2)
   end
 end
  
+-- this function is responsible for drawing the whole page
 function draw(color)
      mon.clear()
      
+     -- Variables Initialized
      Case = reactor.getCasingTemperature()
      maxCase = 2500
      fuel = reactor.getFuelAmount()
@@ -75,60 +74,77 @@ function draw(color)
      rf = reactor.getEnergyProducedLastTick()
      maxRf = 10000
      
-     mon.setCursorPos(32,1)
+     --Heading
+     mon.setCursorPos(33,1)
      mon.write("Reactor")
      
-     mon.setCursorPos(4,1)
+     --Case Temp
+     mon.setCursorPos(8,2)
      mon.write("Case Temp:")
-     mon.setCursorPos(4,2)
+     mon.setCursorPos(8,3)
      mon.write("Centigrade")
-     mon.setCursorPos(14,1)
+     mon.setCursorPos(19,2)
      mon.write(math.floor(reactor.getCasingTemperature()))          
-         
-     mon.setCursorPos(2,10)
-     mon.write("Fuel:")
-     mon.setCursorPos(2,11)
-     mon.write(math.floor((fuel/maxFuel)*100).."%")
      
-     mon.setCursorPos(2,16)
+     --Fuel Status    
+     mon.setCursorPos(8,9)
+     mon.write("Fuel:")
+     mon.setCursorPos(8,10)
+     mon.write(math.floor(((fuel/maxFuel)*100)).."%")
+     
+     --Plan To Remove or Replace
+     --Flow Rate    
+     mon.setCursorPos(8,16)
      mon.write("Mb/t:")
-     mon.setCursorPos(1,19)
+     mon.setCursorPos(8,17)
      mon.write(math.floor(rf/1000).."Buckets/t")
      
-     
-     mon.setCursorPos(1,21)
+     --Fuel Burnup
+     mon.setCursorPos(8,23)
      mon.write("Fuel Burnup Rate:")
-     mon.setCursorPos(19,21)
+     mon.setCursorPos(27,23)
      mon.write(math.floor(reactor.getFuelConsumedLastTick()*1000)/1000)
      
-     progress(Case,maxCase,7,3,2,128)
-     progress(fuel,maxFuel,7,9,16,8)
-     progress(rf,maxRf,7,15,32,1)
+     --Burnup Rate Variables
+     Burnup = math.floor(fuel/reactor.getFuelConsumedLastTick())
+     BurnupSec = math.floor(Burnup/20)
+     BurnupMin = math.floor(BurnupSec/60)        
  
---     mon.setCursorPos(8,4)
---     mon.write(reactor.getCasingTemperature())
-         
+ 
+     --Time left in burn
+     mon.setCursorPos(8,25)
+     mon.write("Min Till Burnout:")
+     mon.setCursorPos(27,25)    
+     mon.write(BurnupMin)
+ 
+     --Test for Case Temp
+     if Case <= 700 then
+     Color1 = colors.lightBlue
+     end    
+ 
+     if Case >700 then    
+       if Case >2000 then
+         Color1 = colors.red
+       else
+         Color1 = colors.orange
+       end
+     end                            
+     
+     --This Section Runs the Bars            
+     progress(Case,maxCase,7,3,Color1,128)
+     progress(fuel,maxFuel,7,10,16,8)
+     progress(rf,maxRf,7,17,32,1)
+     
+     --This Section Sets The Background
      if reactor.getActive() == true then
-       mon.setBackgroundColor(colors.blue)
+       mon.setBackgroundColor(colors.black)
      else
        mon.setBackgroundColor(colors.red)
      end
 end
+--This is the Loop that Runs the Program
 while true do
   draw(color)
- 
-   -- if reactor.getEnergyStored() >= 9000000 then
-   --    reactor.setActive(false)
-   --    mon.setBackgroundColor(colors.red)
-   --    color = red
-  --  end
-   
-  --  if reactor.getEnergyStored() <= (10000000/4) then
-   --    reactor.setActive(true)
-   --    mon.setBackgroundColor(colors.blue)
-   --    color = blue
-  --  end
-   
-   
-    os.sleep(2)
-  end
+     
+  os.sleep(2)
+end
