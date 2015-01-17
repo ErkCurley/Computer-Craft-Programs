@@ -1,0 +1,96 @@
+local commandBlockT = peripheral.wrap("top")
+local commandBlockR = peripheral.wrap("right")
+local commandBlockB = peripheral.wrap("back")
+ 
+local X = 0
+local Z = 0
+local Y = 75
+ 
+local startX = -504
+local startY = 80
+local startZ = -504
+ 
+local Array = {5,10,15,20,25,30,35,40,45,50}
+ 
+ 
+ 
+ 
+function String(X,Y,Z)
+  XString =" "..X
+  YString =" "..Y
+  ZString =" "..Z
+  String1 ="tp ErkCurley"
+  Command = String1..XString..YString..ZString
+  return Command
+end
+ 
+function Chat(Var)
+   String2 =" "..Var
+   String2 ="say"..String2
+   return String2
+end
+ 
+ 
+ 
+ 
+while true do
+if redstone.getInput("left") == true then
+ for i=0 ,64 do
+   
+    os.sleep(1)
+    print("Right")
+ 
+   XVal= startX + X
+   ZVal= startZ + Z
+ 
+   Command = String(XVal,80,ZVal)      
+   Chatbox = Chat(i)
+ 
+   commandBlockR.setCommand(Command)
+   commandBlockR.runCommand()
+   commandBlockT.setCommand(Chatbox)
+   commandBlockT.runCommand()
+print(Command)    
+   X = (i*16)
+   
+ for i=0 , 64 do
+ 
+   os.sleep(1)
+   print("Back")
+   
+   XVal = startX + X
+   ZVal = startZ + Z
+   
+   Command = String(XVal,80,ZVal)
+   Chatbox = Chat(i)
+   
+     commandBlockB.setCommand(Command)
+     commandBlockB.runCommand()
+     commandBlockT.setCommand(Chatbox)
+     commandBlockT.runCommand()  
+   
+ Z = (i*16)
+ 
+  for i=1, #Array do
+   os.sleep(.1)
+   print("up")
+   XVal = startX + X
+   ZVal = startZ + Z
+   YVal = startY + Array[i]
+     Command = String(XVal ,YVal , ZVal )    
+   
+     commandBlockB.setCommand(Command)
+     commandBlockB.runCommand()
+ 
+ 
+ 
+ end
+ end
+ end
+     
+     
+--  commandBlockT.setCommand("say Done")
+--  commandBlockT.runCommand()
+--  os.sleep(.2)
+end
+end
