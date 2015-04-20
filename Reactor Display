@@ -3,6 +3,12 @@ mon = peripheral.wrap("top")
 mon.clear()
 mon.setBackgroundColor(colors.blue)
 color = blue
+
+if reactor.getActive() = true
+else
+    reactor.setActive(true)
+end
+ 
  
 --Case = 0
 --fuel = 0
