@@ -2,6 +2,9 @@
 local reactor = findPeripherial("reactor")
 local mon = findPeripherial("monitor")
 
+--These are the old ones that we are keeping in the code just in case
+--reactor = peripheral.wrap("back")
+--mon = peripheral.wrap("top")
 
 
 
@@ -10,6 +13,7 @@ mon.clear()
 mon.setBackgroundColor(colors.blue)
 color = blue
 
+--Also added this so if something breaks then fix this as well
 if reactor.getActive() = true
 else
     reactor.setActive(true)
@@ -17,6 +21,8 @@ end
 
 
 --This Function is used to find the peripherials attached and attach them
+--Remove this function if something breaks severly
+
 local function findPeripheral( t, e )
   t = t:lower()
   for _,s in pairs(rs.getSides()) do
@@ -29,9 +35,6 @@ end
 
 
 
-
- 
- 
 --Case = 0
 --fuel = 0
 --maxFuel = 0
