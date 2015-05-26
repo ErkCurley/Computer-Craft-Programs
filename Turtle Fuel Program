@@ -1,0 +1,25 @@
+
+  local args = { ... }
+  if #args ~= 2 then
+  print("Need 2 args")
+  return
+  end
+local slot = tonumber(args[1])
+local slotF = tonumber(args[2])
+ 
+function Fuel(Par1,Par2)
+ 
+if turtle.getFuelLevel() < 1000 then
+ 
+turtle.select(Par1)
+turtle.placeUp()
+turtle.select(Par2)
+turtle.suckUp(64)
+turtle.refuel(64)
+turtle.select(Par1)
+turtle.digUp()
+ 
+end
+end
+ 
+Fuel(slot,slotF)
