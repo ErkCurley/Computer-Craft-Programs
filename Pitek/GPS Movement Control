@@ -66,7 +66,7 @@ function Changef(Par1)
       turtle.turnRight()
       
       Face = Face + 1
-      if Face = 4 then
+      if Face == 4 then
         Face = 0
       end
     end
