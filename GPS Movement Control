@@ -1,0 +1,80 @@
+local Posx, Posy, Posz = gps.locate(5)
+local Homex, Homey, Homez, Homef = 4754, 8, -733, 1
+ 
+ 
+if not Posx then
+  print("Failure")
+end
+ 
+shell.run("Fuel",1,4)
+ 
+DoNotRun = false
+ 
+function Changex(Par1)
+  Startx, Starty, Startz = gps.locate(2)
+  if Startx < Par1 then
+    Changef(3)
+    print("Going Higher on X")
+    for i = 1, math.abs(Par1 - Startx) do
+      turtle.forward()
+    end
+  else
+    Changef(1)
+    print("Going Lower on X")
+    for i =1, math.abs(Startx - Par1) do
+      turtle.forward()
+    end
+  end
+end
+ 
+function Changey(Par1)
+-- This function will adjust the height of the turtle
+end
+ 
+function Changez(Par1)
+-- This function will change the z position when called upon then check if the change was correct
+end
+ 
+function Changef(Par1)
+  Getf()
+  if Par1 ~= Face then
+    while Par1 ~= Face do
+      turtle.turnRight()
+      Getf()
+    end
+  end
+end
+ 
+function Getf()
+  Startx, Starty, Startz = gps.locate(2)
+  if turtle.forward() then
+    Endx, Endy, Endz = gps.locate(2)
+ 
+  if Endz > Startz then
+    Face = 0
+  elseif Endz < Startz then
+    Face = 2
+  end
+ 
+  if Endx > Startx then
+    Face = 3
+  elseif Endx < Startx then
+    Face = 1
+  end
+  else
+    print("couldn't move forward")
+    DoNotRun = true
+  end
+  turtle.back()
+  print(Face)
+end
+ 
+if not DoNotRun then
+Getf()
+end
+if not DoNotRun then
+Changef(2)
+end
+if not DoNotRun then
+Changex(Homex)
+end
