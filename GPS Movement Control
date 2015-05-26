@@ -28,11 +28,35 @@ function Changex(Par1)
 end
  
 function Changey(Par1)
--- This function will adjust the height of the turtle
+Startx, Starty, Startz = gps.locate(2)
+  if Starty < Par1 then
+    print("Going Lower on Y")
+    for i = 1, math.abs(Par1 - Starty) do
+      turtle.down()
+    end
+  else
+    print("Going Higher on Y")
+    for i =1, math.abs(Starty - Par1) do
+      turtle.up()
+    end
+  end
 end
  
 function Changez(Par1)
--- This function will change the z position when called upon then check if the change was correct
+Startx, Starty, Startz = gps.locate(2)
+  if Startz < Par1 then
+    Changef(0)
+    print("Going Higher on Z")
+    for i = 1, math.abs(Par1 - Startz) do
+      turtle.forward()
+    end
+  else
+    Changef(0)
+    print("Going Lower on Z")
+    for i =1, math.abs(Startz - Par1) do
+      turtle.forward()
+    end
+  end
 end
  
 function Changef(Par1)
@@ -40,7 +64,11 @@ function Changef(Par1)
   if Par1 ~= Face then
     while Par1 ~= Face do
       turtle.turnRight()
-      Getf()
+      
+      Face = Face + 1
+      if Face = 4 then
+        Face = 0
+      end
     end
   end
 end
