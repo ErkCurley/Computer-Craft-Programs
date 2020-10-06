@@ -1,0 +1,73 @@
+function bridgeLoop()
+     if turtle.getFuelLevel() < 1000 then
+         print("Fuel too Low  -- " .. turtle.getFuelLevel())
+         print("Place fuel in last slot and press enter")
+         a = read()
+         turtle.select(16)
+         turtle.refuel()
+         turtle.select(1)
+         if turtle.getFuelLevel() < 1000 then
+             return false
+         end
+     end
+     
+     if turtle.getItemCount(1) < 2 or turtle.getItemCount(13) < 1 then
+         print("Not Enough Resources")
+         return
+     end
+   
+     
+    turtle.forward()
+    turtle.placeDown()
+    turtle.select(1)
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.placeDown()
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.forward()
+    turtle.placeDown()
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.turnRight()
+    return true
+end
+
+function logLoop()
+    if turtle.getItemCount(1) == 0 then
+        return false
+    end
+    turtle.select(1)
+    turtle.place()
+    turtle.up()
+    turtle.select(13)
+    turtle.place()
+    turtle.down()
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.forward()
+    turtle.turnLeft()
+    turtle.turnLeft() 
+    
+    return true
+end
+
+count = 0
+print("please enter the distance \n")
+dist = read()
+dist = tonumber(dist)
+print("The bridge will be "..dist.." blocks long")
+
+while count <= dist do
+    print(count)
+     
+     if logLoop() then
+    --if bridgeLoop() then
+        count = count + 1
+    else
+        break
+    end
+
+end
