@@ -6,40 +6,42 @@ width = tonumber(read())
 
 blueprint = {}
 
-for j=1, length do
-    blueprint[j] = {}
-    
-    turtle.forward()
-    turtle.turnRight()
+function scanLayer()
+    for j=1, length do
+        blueprint[j] = {}
+        
+        turtle.forward()
+        turtle.turnRight()
 
-    for i=1, width do
-        success, block = turtle.inspectDown()
-        if success then
-            blueprint[j][i] = block
-        else
-            blueprint[j][i] = {}        
+        for i=1, width do
+            success, block = turtle.inspectDown()
+            if success then
+                blueprint[j][i] = block
+            else
+                blueprint[j][i] = {}        
+            end
+            turtle.forward()
         end
-        turtle.forward()
+        
+        turtle.turnLeft()
+        turtle.turnLeft()
+
+        for i=1, width do
+            turtle.forward()
+        end
+
+        turtle.turnRight()
+
     end
-    
     turtle.turnLeft()
     turtle.turnLeft()
 
-    for i=1, width do
+    for i=1, length do
         turtle.forward()
     end
-
-    turtle.turnRight()
-
+    turtle.turnLeft()
+    turtle.turnLeft()
 end
-turtle.turnLeft()
-turtle.turnLeft()
-
-for i=1, length do
-    turtle.forward()
-end
-turtle.turnLeft()
-turtle.turnLeft()
 
 function save(table,name)
     local file = fs.open(name,'w')
@@ -47,4 +49,58 @@ function save(table,name)
     file.close()
 end
 
+function mysplit(inputstr,sep)
+    if sep == nil then
+        sep = '%s'
+    end
+    
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        table.insert(t,str)
+    end
+    return t
+end
+
+
+function selectItem(name)
+    notFound = true
+    
+    for i=1,#inv do
+        if #inv[i] >= 1 then
+            --print(inv[i][1]['count'])
+            --print(inv[i][1]['name'])
+            t = mysplit(name,",")
+            name_first = t[1]
+            damage = tonumber(t[2])
+            
+            if name_first == inv[i][1]['name'] then
+                if damage == nil then
+                    turtle.select(i)
+                    notFound = false
+                end
+                
+                if damage == inv[i][1]['damage'] then
+                    turtle.select(i)
+                    notFound = false
+                    return true
+                end 
+            end
+        end
+    end
+    
+    if notFound == true then
+        return false
+    end
+
+    return true
+end
+
+function scanInv()
+    for i=1,16 do
+        inv[i] = {}
+        inv[i][1] = turtle.getItemDetail(i)
+    end
+end
+
+local inv = {}
 save(blueprint,"TEST")
