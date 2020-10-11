@@ -103,4 +103,60 @@ function scanInv()
 end
 
 local inv = {}
+
+function removeLayer()
+    full = false
+
+    for j=1, length do   
+        turtle.forward()
+        turtle.turnRight()
+
+        for i=1, width do
+            if full !== true then
+                turtle.digDown()
+            end
+
+            if turtle.getItemLevel(16) > 0 then
+                full = true
+            end
+
+            turtle.forward()
+        end
+        
+        turtle.turnLeft()
+        turtle.turnLeft()
+
+        for i=1, width do
+            turtle.forward()
+        end
+
+        turtle.turnRight()
+
+    end
+    turtle.turnLeft()
+    turtle.turnLeft()
+
+    for i=1, length do
+        turtle.forward()
+    end
+    turtle.turnLeft()
+    turtle.turnLeft()
+
+    done = true
+    for i=1, ipairs(blueprint) do
+        for j=1, ipairs(blueprint[i]) do
+            if blueprint[i][j] !== {} then
+                done = false
+                break
+            end
+    end
+
+    if done == false then
+        removeLayer()
+    end
+end
+
+
+scanLayer()
 save(blueprint,"TEST")
+removeLayer()
