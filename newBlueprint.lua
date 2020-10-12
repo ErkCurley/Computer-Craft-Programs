@@ -5,6 +5,7 @@ print("Width: ")
 width = tonumber(read())
 
 blueprint = {}
+blueprintCopy = {}
 
 function scanLayer()
     for j=1, length do
@@ -112,11 +113,12 @@ function removeLayer()
         turtle.turnRight()
 
         for i=1, width do
-            if full !== true then
+            if full ~= true then
                 turtle.digDown()
+                blueprintCopy[j][i] = {}
             end
 
-            if turtle.getItemLevel(16) > 0 then
+            if turtle.getItemCount(16) > 0 then
                 full = true
             end
 
@@ -133,30 +135,36 @@ function removeLayer()
         turtle.turnRight()
 
     end
-    turtle.turnLeft()
-    turtle.turnLeft()
 
+    --Return Home and Face Forward
+    turtle.turnLeft()
+    turtle.turnLeft()
     for i=1, length do
         turtle.forward()
     end
     turtle.turnLeft()
     turtle.turnLeft()
 
-    done = true
-    for i=1, ipairs(blueprint) do
-        for j=1, ipairs(blueprint[i]) do
-            if blueprint[i][j] !== {} then
-                done = false
-                break
-            end
-    end
+    
+    -- done = true
+    
+    -- for i,v in ipairs(blueprintCopy) do
+    --     for j,w in ipairs(v) do
+    --         if w == nil then
+    --             done = false
+    --             break
+    --         end
+    --     end
+    -- end
 
-    if done == false then
-        removeLayer()
-    end
+    -- if done == false then
+    --     print("Going 1 Recursion Deeper")
+    --     removeLayer()
+    -- end
 end
 
 
 scanLayer()
 save(blueprint,"TEST")
+blueprintCopy = blueprint
 removeLayer()
