@@ -5,7 +5,6 @@ print("Width: ")
 width = tonumber(read())
 
 blueprint = {}
-blueprintCopy = {}
 
 function scanLayer()
     for j=1, length do
@@ -42,6 +41,7 @@ function scanLayer()
     end
     turtle.turnLeft()
     turtle.turnLeft()
+
 end
 
 function save(table,name)
@@ -103,8 +103,6 @@ function scanInv()
     end
 end
 
-local inv = {}
-
 function removeLayer()
     full = false
 
@@ -144,27 +142,59 @@ function removeLayer()
     end
     turtle.turnLeft()
     turtle.turnLeft()
-
     
-    -- done = true
-    
-    -- for i,v in ipairs(blueprintCopy) do
-    --     for j,w in ipairs(v) do
-    --         if w == nil then
-    --             done = false
-    --             break
-    --         end
-    --     end
-    -- end
+    done = true
+    --save(blueprintCopy,"TEST")
+    for i,v in ipairs(blueprintCopy) do
+        for j,w in ipairs(v) do
+            if next(w) ~= nil then
+                --save(w,"TEST")
+                done = false
+                break
+            end
+        end
+        if done == false then
+            break
+        end
+    end
 
-    -- if done == false then
-    --     print("Going 1 Recursion Deeper")
-    --     removeLayer()
-    -- end
+    if done == false then
+        --save(blueprintCopy,'TEST')
+        print("Going 1 Recursion Deeper")
+        
+        for i = 1,16 do
+            turtle.select(i)
+            turtle.drop()
+        end
+        
+        
+        removeLayer()
+    end
+    
+end
+
+function printLayer()
+    --save(blueprint,"TEST")
+    for i,v in ipairs(blueprint) do
+               
+        for j,w in ipairs(v) do
+            
+            --print(w['name'])
+        end 
+    
+    end 
+
 end
 
 
 scanLayer()
-save(blueprint,"TEST")
-blueprintCopy = blueprint
+
+blueprintCopy = {}
+for i,v in ipairs(blueprint) do
+    blueprintCopy[i] = v
+end
+
+
 removeLayer()
+printLayer()
+--save(blueprint,"TEST")
