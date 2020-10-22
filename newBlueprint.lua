@@ -4,11 +4,16 @@ length = tonumber(read())
 print("Width: ")
 width = tonumber(read())
 
+print("Height: ")
+height = tonumber(read())
+
 blueprint = {}
 
 function scanLayer()
+    for h=1, height do 
+        blueprint[h] = {} 
     for j=1, length do
-        blueprint[j] = {}
+        blueprint[h][j] = {}
         
         turtle.forward()
         turtle.turnRight()
@@ -16,9 +21,9 @@ function scanLayer()
         for i=1, width do
             success, block = turtle.inspectDown()
             if success then
-                blueprint[j][i] = block
+                blueprint[h][j][i] = block
             else
-                blueprint[j][i] = {}        
+                blueprint[h][j][i] = {}        
             end
             turtle.forward()
         end
@@ -42,6 +47,14 @@ function scanLayer()
     turtle.turnLeft()
     turtle.turnLeft()
 
+    
+    blueprintCopy = copyTable(blueprint)        
+    removeLayer(h)
+    
+    turtle.digDown()
+    turtle.down()
+    
+    end
 end
 
 function save(table,name)
@@ -103,9 +116,9 @@ function scanInv()
     end
 end
 
-function removeLayer()
+function removeLayer(num)
     full = false
-
+    
     for j=1, length do   
         turtle.forward()
         turtle.turnRight()
@@ -113,7 +126,7 @@ function removeLayer()
         for i=1, width do
             if full ~= true then
                 turtle.digDown()
-                blueprintCopy[j][i] = {}
+                blueprintCopy[num][j][i] = {}
             end
 
             if turtle.getItemCount(16) > 0 then
@@ -145,7 +158,7 @@ function removeLayer()
     
     done = true
     --save(blueprintCopy,"TEST")
-    for i,v in ipairs(blueprintCopy) do
+    for i,v in ipairs(blueprintCopy[num]) do
         for j,w in ipairs(v) do
             if next(w) ~= nil then
                 --save(w,"TEST")
@@ -175,7 +188,8 @@ end
 
 function printLayer()
     --save(blueprint,"TEST")
-    for i,v in ipairs(blueprint) do
+    for i,x in ipairs(blueprint) do
+    for i,v in ipairs(x) do
                
         for j,w in ipairs(v) do
             
@@ -183,18 +197,17 @@ function printLayer()
         end 
     
     end 
-
+    end
 end
 
+function copyTable(t)
+    t1 = {}
+    for i,v in ipairs(t) do
+        t1[i] = v
+    end
+    return t1
+end
 
 scanLayer()
-
-blueprintCopy = {}
-for i,v in ipairs(blueprint) do
-    blueprintCopy[i] = v
-end
-
-
-removeLayer()
 printLayer()
---save(blueprint,"TEST")
+save(blueprint,"TEST")
