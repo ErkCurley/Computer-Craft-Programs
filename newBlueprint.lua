@@ -48,7 +48,7 @@ function scanLayer()
     turtle.turnLeft()
 
     
-    blueprintCopy = copyTable(blueprint)        
+    blueprintCopy = deepcopy(blueprint)        
     removeLayer(h)
     
     turtle.digDown()
@@ -73,6 +73,28 @@ function mysplit(inputstr,sep)
         table.insert(t,str)
     end
     return t
+end
+
+-- Save copied tables in `copies`, indexed by original table.
+function deepcopy(orig, copies)
+    copies = copies or {}
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        if copies[orig] then
+            copy = copies[orig]
+        else
+            copy = {}
+            copies[orig] = copy
+            for orig_key, orig_value in next, orig, nil do
+                copy[deepcopy(orig_key, copies)] = deepcopy(orig_value, copies)
+            end
+            setmetatable(copy, deepcopy(getmetatable(orig), copies))
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
 end
 
 
@@ -198,14 +220,6 @@ function printLayer()
     
     end 
     end
-end
-
-function copyTable(t)
-    t1 = {}
-    for i,v in ipairs(t) do
-        t1[i] = v
-    end
-    return t1
 end
 
 scanLayer()
